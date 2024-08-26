@@ -19,6 +19,14 @@ class EnvSetup < Formula
   end
 
   def post_install
+    require 'net/http'
+
+    gh = 'https://raw.githubusercontent.com/Luciditi/env-setup/main'
+    configs = ['/.none.config.yml', '/.mini.config.yml', '/.most.config.yml']
+    configs.each {
+      |config| IO.write(libexec.to_s.concat(config), Net::HTTP.get(URI(gh.concat(config))))
+    }
+
     if Dir.glob(File.expand_path('~').concat("/.ssh/id*")).empty?
       opoo "No SSH key was found in ~/.ssh/ dir."
       opoo "Please run ssh-keygen to install a SSH key for env-setup."
