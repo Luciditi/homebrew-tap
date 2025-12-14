@@ -2,8 +2,8 @@ class EnvSetup < Formula
 
   desc "A workstation provisioner powered by Ansible & Homebrew"
   homepage "https://github.com/Luciditi/env-setup.git"
-  url "https://github.com/Luciditi/env-setup/archive/refs/tags/v1.3.3.tar.gz"
-  sha256 "bf34a1a52c3171db7eb489ffaeed833b1f2f021107a3cace10f597bf9f71841b"
+  url "https://github.com/Luciditi/env-setup/archive/refs/tags/v1.4.0.tar.gz"
+  sha256 "08f22e181dcfdb398c6b4d654aa7a564910823c204fadfa213daadf05114884e"
   license "MIT License"
   head "https://github.com/Luciditi/env-setup.git", branch: "main"
 
