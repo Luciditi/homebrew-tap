@@ -1,39 +1,32 @@
 class EnvSetup < Formula
-
   desc "A workstation provisioner powered by Ansible & Homebrew"
-  homepage "https://github.com/Luciditi/env-setup.git"
-  url "https://github.com/Luciditi/env-setup/archive/refs/tags/v2.0.0.tar.gz"
-  sha256 "6ba3a6e332eb5650fd502360ffd199ae31c582299ba4783f7bd35599b8cf3003"
-  license "MIT License"
+  homepage "https://github.com/Luciditi/env-setup"
+  url "https://github.com/Luciditi/env-setup/archive/refs/tags/v3.0.0.tar.gz"
+  sha256 "f2adebe7fddfeaa3fb9905b48560457d85c3c98a7ce3af21e42720bf1a74154e"
+  license "MIT"
   head "https://github.com/Luciditi/env-setup.git", branch: "main"
 
   depends_on "ansible"
   depends_on "curl"
   depends_on "grep"
+  depends_on "jq"
 
   def install
     libexec.install Dir["*"]
+    libexec.install Dir[".*.config.yml"]
     bin.write_exec_script libexec/"scripts/env-setup"
     ohai "env-setup has been installed."
     ohai "Restart your shell and run env-setup."
   end
 
   def post_install
-    require 'net/http'
-
-    gh = 'https://raw.githubusercontent.com/Luciditi/env-setup/main'
-    configs = ['/.none.config.yml', '/.mini.config.yml', '/.most.config.yml']
-    configs.each {
-      |config| IO.write(libexec.to_s.concat(config), Net::HTTP.get(URI(gh.concat(config))))
-    }
-
-    if Dir.glob(File.expand_path('~').concat("/.ssh/id*")).empty?
+    if Dir.glob(File.expand_path("~/.ssh/id*")).empty?
       opoo "No SSH key was found in ~/.ssh/ dir."
       opoo "Please run ssh-keygen to install a SSH key for env-setup."
     end
   end
 
   test do
-    system bin/"env-setup", prefix
+    system bin/"env-setup", "--help"
   end
 end
